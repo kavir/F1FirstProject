@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:firstproject/loginpage.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
-class createAccount extends StatefulWidget {
-  const createAccount({super.key});
+class CreateAccount extends StatefulWidget {
+  const CreateAccount({Key? key}) : super(key: key);
 
   @override
-  State<createAccount> createState() => _createAccountState();
+  State<CreateAccount> createState() => _CreateAccountState();
 }
 
-class _createAccountState extends State<createAccount> {
+class _CreateAccountState extends State<CreateAccount> {
   bool _obscurePassword = true;
 
   @override
@@ -36,10 +38,9 @@ class _createAccountState extends State<createAccount> {
                 children: <Widget>[
                   Center(
                     child: Container(
-                      height: screenSize.height * 0.99,
+                      height: screenSize.height * 1.2,
                       width: screenSize.width * 0.9,
-                      color: Colors
-                          .transparent, // Set container color to transparent
+                      color: Colors.transparent,
                       child: Column(
                         children: <Widget>[
                           Expanded(
@@ -60,220 +61,218 @@ class _createAccountState extends State<createAccount> {
                           Expanded(
                             flex: 2,
                             child: Container(
-                              padding: EdgeInsets.all(46.0),
+                              padding: EdgeInsets.all(16.0),
                               color: Colors.white,
                               child: Column(
                                 children: <Widget>[
                                   Text(
                                     "Create Account",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(
-                                            255, 65, 93, 97),
-                                        fontSize: 20),
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          const Color.fromARGB(255, 65, 93, 97),
+                                      fontSize: 20,
+                                    ),
                                   ),
                                   SizedBox(height: 4),
-                                  Center(
-                                    child: TextFormField(
-                                      autofocus: true,
-                                      decoration: InputDecoration(
-                                          labelText: 'Full Name'),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 2,
-                                    decoration: BoxDecoration(boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                      ),
-                                    ]),
-                                  ),
-                                  Center(
-                                    child: TextFormField(
-                                      autofocus: true,
-                                      decoration:
-                                          InputDecoration(labelText: 'Email'),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 2,
-                                    decoration: BoxDecoration(boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                      ),
-                                    ]),
-                                  ),
-                                  Center(
-                                    child: TextFormField(
-                                      autofocus: true,
-                                      obscureText: _obscurePassword,
-                                      decoration: InputDecoration(
-                                        labelText: 'Password',
-                                        suffixIcon: IconButton(
-                                          icon: Icon(Icons.visibility),
-                                          onPressed: () {
-                                            setState(() {
-                                              _obscurePassword =
-                                                  !_obscurePassword;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 2,
-                                    decoration: BoxDecoration(boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                      ),
-                                    ]),
-                                  ),
-                                  SizedBox(height: 16),
-                                  Center(
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                          Color.fromARGB(255, 155, 83, 78),
-                                        ),
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.white),
-                                        shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                10.0), // Adjust the radius as needed
-                                          ),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        final snackBar = SnackBar(
-                                          content: Text(
-                                              'Account Created!'), // Your message here
-                                          duration: Duration(
-                                              seconds:
-                                                  2), // Duration for which snackbar will be visible
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
-                                      },
-                                      child: Text("Create Account"),
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
 
-                                  Center(
-                                    child: Text(
-                                      "-OR-",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 20),
+                                  ////using a form builder widget
+                                  FormBuilder(
+                                    ////validation technique
+
+                                    child: Column(
+                                      children: [
+                                        /////////////////////////////////////////////////////////
+                                        FormBuilderTextField(
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          name: 'fullName',
+                                          decoration: InputDecoration(
+                                              labelText: 'Full Name'),
+                                          validator:
+                                              FormBuilderValidators.compose([
+                                            FormBuilderValidators.required(
+                                              errorText:
+                                                  'NameField Cannot be empty',
+                                            ),
+                                            FormBuilderValidators.minLength(
+                                              3,
+                                              errorText:
+                                                  'NameField Cannot be less than 3 characters',
+                                            ),
+                                          ]),
+                                        ),
+                                        ///////////////////////////////////////////////////////
+                                        SizedBox(height: 16),
+                                        FormBuilderTextField(
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          name: 'email',
+                                          decoration: InputDecoration(
+                                              labelText: 'Email'),
+                                          validator:
+                                              FormBuilderValidators.compose([
+                                            FormBuilderValidators.required(
+                                                errorText:
+                                                    "EmailField Cannot be empty"),
+                                            FormBuilderValidators.email(),
+                                          ]),
+                                        ),
+                                        SizedBox(height: 16),
+                                        FormBuilderTextField(
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          name: 'password',
+                                          obscureText: _obscurePassword,
+                                          decoration: InputDecoration(
+                                            labelText: 'Password',
+                                            suffixIcon: IconButton(
+                                              icon: _obscurePassword
+                                                  ? Icon(Icons.visibility)
+                                                  : Icon(Icons.visibility_off),
+                                              onPressed: () {
+                                                setState(() {
+                                                  _obscurePassword =
+                                                      !_obscurePassword;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          validator:
+                                              FormBuilderValidators.compose([
+                                            FormBuilderValidators.required(
+                                                errorText:
+                                                    "Passwordfield Cannot be empty"),
+                                            FormBuilderValidators.minLength(6,
+                                                errorText:
+                                                    "PasswordField should be greater than 6 characters"),
+                                          ]),
+                                        ),
+                                        SizedBox(height: 16),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            if (FormBuilder.of(context)!
+                                                .saveAndValidate()) {
+                                              // Form is valid, handle form submission
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        loginaccount()),
+                                              );
+                                              final snackBar = SnackBar(
+                                                content:
+                                                    Text('Account Created!'),
+                                                duration: Duration(seconds: 2),
+                                              );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                            }
+                                          },
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              Color.fromARGB(255, 155, 83, 78),
+                                            ),
+                                            foregroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.white),
+                                            shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                          ),
+                                          child: Text("Create Account"),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  // SizedBox(height: 10),
-                                  Center(
-                                    child: OutlinedButton(
-                                      onPressed: () {
-                                        final snackBar = SnackBar(
-                                          content: Text(
-                                              'you hve sucessfully signed up! using Google'), // Your message here
-                                          duration: Duration(
-                                              seconds:
-                                                  2), // Duration for which snackbar will be visible
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
-                                      },
-                                      style: ButtonStyle(
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0)))),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            'assets/google1.png', // Replace 'google_icon.png' with the actual path to your Google icon asset
-                                            width:
-                                                24, // Adjust the width as needed
-                                            height: 24,
-                                            fit: BoxFit
-                                                .contain, // Adjust the height as needed
-                                          ),
-                                          SizedBox(
-                                              width:
-                                                  8), // Add some space between the icon and the text
-                                          Text(
-                                            "Signup with Google",
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
-                                        ],
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "-OR-",
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 15),
+                                  ),
+                                  SizedBox(height: 6),
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      final snackBar = SnackBar(
+                                        content: Text(
+                                            'you have successfully signed up! using Google'),
+                                        duration: Duration(seconds: 2),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    },
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  Center(
-                                    child: OutlinedButton(
-                                      onPressed: () {
-                                        final snackBar = SnackBar(
-                                          content: Text(
-                                              ' you hve sucessfully signed up using Dribble'), // Your message here
-                                          duration: Duration(
-                                              seconds:
-                                                  2), // Duration for which snackbar will be visible
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar); //
-                                      },
-                                      style: ButtonStyle(
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0)))),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            'assets/dribble.png', // Replace 'google_icon.png' with the actual path to your Google icon asset
-                                            width:
-                                                37, // Adjust the width as needed
-                                            height: 37,
-                                            fit: BoxFit
-                                                .contain, // Adjust the height as needed
-                                          ),
-                                          SizedBox(
-                                              width:
-                                                  8), // Add some space between the icon and the text
-                                          Text(
-                                            "Signup with Dribble",
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
-                                        ],
-                                      ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          'assets/google1.png',
+                                          width: 24,
+                                          height: 24,
+                                          fit: BoxFit.contain,
+                                        ),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          "Signup with Google",
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  // Center(
-                                  //   child: OutlinedButton(
-                                  //       onPressed: () {},
-                                  //       child: Text("Signup with Google")),
-                                  // ),
+                                  SizedBox(height: 6),
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      final snackBar = SnackBar(
+                                        content: Text(
+                                            'you have successfully signed up using Dribble'),
+                                        duration: Duration(seconds: 2),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    },
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          'assets/dribble.png',
+                                          width: 37,
+                                          height: 37,
+                                          fit: BoxFit.contain,
+                                        ),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          "Signup with Dribble",
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -281,7 +280,7 @@ class _createAccountState extends State<createAccount> {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               Positioned(
@@ -289,8 +288,7 @@ class _createAccountState extends State<createAccount> {
                 left: 0,
                 right: 0,
                 child: Transform.rotate(
-                  angle:
-                      0.7, // Specify the angle in radians (-0.5 radians is approximately -28.65 degrees)
+                  angle: 0.7,
                   child: Image.asset(
                     'assets/logorandom.png',
                     width: screenSize.width * 0.45,
